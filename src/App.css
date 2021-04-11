@@ -1,38 +1,200 @@
-.App {
-  text-align: center;
+.app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('./images/confetti.jpg');
+    opacity: 0.3;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app {
+    position: relative;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.products {
+    position: relative;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+div.products > div {
+    margin: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    border: solid 2px black;
+    display: flex;
+    padding: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.product a {
+    color: black;
+    text-decoration: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.products img {
+    max-width: 100px;
+    max-height: 150px;
+}
+
+div.product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.product-action button {
+    cursor: pointer;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    border: 3px solid black;
+    margin: 0;
+    padding: 15px 30px;
+    background-color: #fff;
+    width: 100%;
+}
+
+.logo,
+h1 {
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 4px 10px;
+    color: #fff;
+    background-color: black;
+    font-weight: 800;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+        sans-serif;
+}
+
+.logo {
+    padding: 10px;
+}
+
+.logo a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.logo,
+.action {
+    margin: 0 20px;
+}
+
+h1 {
+    padding: 15px 25px;
+    position: relative;
+}
+
+.product-page {
+    position: relative;
+    min-height: 100vh;
+    margin: 50px;
+    min-width: 250px;
+    width: 50%;
+    padding: 20px;
+}
+
+.product-page img {
+    width: 60%;
+    padding: 10px 20px;
+}
+
+.product-item {
+    padding: 10px 20px 20px;
+    border-radius: 10px;
+    border: solid black 1px;
+    background: rgb(255, 255, 255, 0.9);
+}
+
+.product-item > p {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.product-item > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.product-controls {
+    border-left: solid 1px black;
+}
+
+.product-controls > div {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.product-controls input,
+.product-controls button {
+    margin: 10px auto 0;
+}
+
+.product-controls input {
+    width: 50px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.product-image,
+.product-controls {
+    width: 100%;
+    margin: auto;
+}
+
+.add-to-cart {
+    background: rgb(197, 154, 161);
+    filter: drop-shadow(2px 2px 2px rgb(107, 106, 106));
+    border-bottom: 2px solid rgb(133, 103, 103);
+    color: #fff;
+    font-weight: 600;
+    padding: 5px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.number {
+    color: #fff;
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    z-index: 2;
+    margin-right: 2px;
+    margin-top: -15px;
+    font-size: 0.8rem;
+    top: 0;
+    right: 0;
+    width: 30px;
+}
+
+.action a {
+    position: relative;
+}
+
+.action img {
+    width: 40px;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+.cart-table {
+    border: solid black 1px;
 }
