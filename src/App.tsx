@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Header } from './Header';
-import { Home } from './Home';
-import { ProductPage } from './ProductPage';
-import CartPage from './CartPage';
+import { Header } from './Components/Header';
+import { Home } from './Pages/Home';
+import { ProductPage } from './Pages/ProductPage';
+import CartPage from './Pages/CartPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 export interface Product {

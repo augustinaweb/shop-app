@@ -1,5 +1,5 @@
 import React from 'react';
-import cartIcon from './images/shopping-cart.png';
+import cartIcon from '../images/shopping-cart.png';
 import { Link } from 'react-router-dom';
 
 interface IProps {

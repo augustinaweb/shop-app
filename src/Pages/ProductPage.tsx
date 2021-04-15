@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Product, Cart, CartProduct } from './App';
+import { Product, Cart, CartProduct } from '../App';
 
 interface IProps {
     cart: Cart | any[];
