@@ -3,5 +3,6 @@
     "editor.formatOnSave": true,
 	"editor.insertSpaces": false,
 	"editor.comments.insertSpace": false,
-	"editor.renderWhitespace": "trailing"
+	"editor.renderWhitespace": "trailing",
+	"editor.detectIndentation": false
 }
