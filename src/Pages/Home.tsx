@@ -8,17 +8,12 @@ interface IProps {
 	onClick: ({ id, quantity }: CartProduct) => void;
 }
 
-interface OnPageChange {
-	selectedPage: number;
-	pageLimit: number;
-}
-
 export const Home: React.FC<IProps> = ({ products, onClick }: IProps) => {
 	const [currentPage, setCurrentPage] = useState(1);
-	const [currentProducts, setCurrentProducts] = useState<Product[]>(products);
+	const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
-	const onPageChange = ({ selectedPage, pageLimit }: OnPageChange) => {
-		const offset = (currentPage - 1) * pageLimit;
+	const onPageChange = (selectedPage: number, pageLimit: number) => {
+		const offset = (selectedPage - 1) * pageLimit;
 		const newCurrentProducts = products.slice(offset, offset + pageLimit);
 		setCurrentProducts(newCurrentProducts);
 		setCurrentPage(selectedPage);
@@ -54,13 +49,13 @@ export const Home: React.FC<IProps> = ({ products, onClick }: IProps) => {
 			</div>
 			<Pagination
 				totalRecords={products.length}
-				pageLimit={2}
+				pageLimit={3}
 				pageNeighbours={1}
 				onPageChange={onPageChange}
 				currentPage={currentPage}
-				//onClick={() => {
-				//	console.log('test');
-				//}}
+				className="pagination"
+				setCurrentProducts={setCurrentProducts}
+				items={products}
 			/>
 		</>
 	);

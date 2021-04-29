@@ -1,12 +1,15 @@
-import React, { FC, Fragment, useEffect } from 'react';
+import React, { FC, Fragment } from 'react';
+import { Product } from '../App';
 
 interface IProps {
 	totalRecords: number;
 	pageLimit?: number;
 	pageNeighbours?: number;
-	onPageChange: (data: any) => void;
+	onPageChange: (a: any, b: any) => void;
 	currentPage: number;
-	//onClick: () => void;
+	className: string;
+	setCurrentProducts: (arg: Product[]) => void;
+	items: Product[];
 }
 
 const range = (from: number, to: number) => {
@@ -26,9 +29,11 @@ const Pagination: FC<IProps> = ({
 	pageLimit,
 	pageNeighbours,
 	onPageChange,
-	currentPage
+	currentPage,
+	setCurrentProducts,
+	items
 }: IProps) => {
-	const _pageLimit = pageLimit ?? 6;
+	const _pageLimit = pageLimit ?? 4;
 	const _pageNeighbours = pageNeighbours
 		? Math.max(0, Math.min(pageNeighbours, 2))
 		: 0;
@@ -36,6 +41,15 @@ const Pagination: FC<IProps> = ({
 
 	const LEFT_PAGE = 'LEFT';
 	const RIGHT_PAGE = 'RIGHT';
+
+	React.useEffect(() => {
+		setCurrentProducts(
+			items.slice(
+				(currentPage - 1) * _pageLimit,
+				currentPage * _pageLimit
+			)
+		);
+	}, []);
 
 	const fetchPageNumbers = () => {
 		const totalNumbers = _pageNeighbours * 2 + 3;
@@ -48,29 +62,19 @@ const Pagination: FC<IProps> = ({
 				currentPage + _pageNeighbours
 			);
 			let pages: (number | string)[] = range(startPage, endPage);
-
 			const hasLeftSpill = startPage > 2;
 			const hasRightSpill = totalPages - endPage > 1;
-			const spillOffset = totalPages - (pages.length + 2);
 
 			switch (true) {
 				// handle: (1) < {5 6} [7] {8 9} (10)
 				case hasLeftSpill && !hasRightSpill: {
-					const extraPages = range(
-						startPage - spillOffset,
-						startPage - 1
-					);
-					pages = [LEFT_PAGE, ...extraPages, ...pages];
+					pages = [LEFT_PAGE, ...pages];
 					break;
 				}
 
 				// handle: (1) {2 3} [4] {5 6} > (10)
 				case !hasLeftSpill && hasRightSpill: {
-					const extraPages = range(
-						endPage + 1,
-						endPage + spillOffset
-					);
-					pages = [...pages, ...extraPages, RIGHT_PAGE];
+					pages = [...pages, RIGHT_PAGE];
 					break;
 				}
 
@@ -87,27 +91,19 @@ const Pagination: FC<IProps> = ({
 		return range(1, totalPages);
 	};
 
-	const handleClick = () => {
-		//const handleClick = (evt: React.MouseEvent<HTMLElement>, page: number) => {
-		console.log('test');
-		//console.log(page);
-		//const selectedPage = Math.max(0, Math.min(page, totalPages));
-		//const paginationData = {
-		//	selectedPage,
-		//	_pageLimit
-		//};
-		//evt.preventDefault();
-		//onPageChange(paginationData);
+	const handleClick = (evt: React.MouseEvent<HTMLElement>, page: number) => {
+		evt.preventDefault();
+		onPageChange(page, _pageLimit);
 	};
 
 	const handleMoveLeft = (evt: React.MouseEvent<HTMLElement>) => {
 		evt.preventDefault();
-		//handleClick(evt, currentPage - _pageNeighbours * 2 - 1);
+		handleClick(evt, currentPage - _pageNeighbours - 1);
 	};
 
 	const handleMoveRight = (evt: React.MouseEvent<HTMLElement>) => {
 		evt.preventDefault();
-		//handleClick(evt, currentPage + _pageNeighbours * 2 + 1);
+		handleClick(evt, currentPage + _pageNeighbours + 1);
 	};
 
 	if (!totalRecords || totalPages === 1) return null;
@@ -126,13 +122,10 @@ const Pagination: FC<IProps> = ({
 										aria-label="Previous"
 									>
 										<span
-											onClick={() => handleMoveLeft}
+											onClick={handleMoveLeft}
 											aria-hidden="true"
 										>
 											&laquo;
-										</span>
-										<span className="sr-only">
-											Previous
 										</span>
 									</a>
 								</li>
@@ -147,12 +140,11 @@ const Pagination: FC<IProps> = ({
 										aria-label="Next"
 									>
 										<span
-											onClick={(e) => handleMoveRight}
+											onClick={handleMoveRight}
 											aria-hidden="true"
 										>
-											&raquo;fff
+											&raquo;
 										</span>
-										<span className="sr-only">Next</span>
 									</a>
 								</li>
 							);
@@ -164,10 +156,7 @@ const Pagination: FC<IProps> = ({
 									currentPage === page ? ' active' : ''
 								}`}
 							>
-								<p onClick={(e) => console.log('test')}>
-									{page}
-								</p>
-								{/*<a
+								<a
 									className="page-link"
 									href="#"
 									onClick={(
@@ -175,7 +164,7 @@ const Pagination: FC<IProps> = ({
 									) => handleClick(e, +page)}
 								>
 									{page}
-								</a>*/}
+								</a>
 							</li>
 						);
 					})}

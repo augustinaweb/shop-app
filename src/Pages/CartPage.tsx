@@ -4,10 +4,12 @@ import { CartProduct, Product } from '../App';
 interface IProps {
 	cart: CartProduct[];
 	products: Product[];
+	total: number;
 }
 
-const CartPage: FC<IProps> = ({ cart, products }: IProps) => {
+const CartPage: FC<IProps> = ({ cart, products, total }: IProps) => {
 	console.log(cart);
+	//const totalPrice = reduce.cart
 	return (
 		<>
 			<h2>Cart!</h2>
@@ -15,7 +17,8 @@ const CartPage: FC<IProps> = ({ cart, products }: IProps) => {
 				<tr>
 					<th>No</th>
 					<th>Product</th>
-					<th>Image</th>
+					<th></th>
+					<th>Price</th>
 					<th>Quantity</th>
 				</tr>
 				{cart.map((product, i: number) => {
@@ -32,10 +35,18 @@ const CartPage: FC<IProps> = ({ cart, products }: IProps) => {
 									width="100"
 								></img>
 							</td>
+							<td>{products[index].price} €</td>
 							<td>{product.quantity}</td>
 						</tr>
 					);
 				})}
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>totalPrice €</td>
+					<td>{total}</td>
+				</tr>
 			</table>
 		</>
 	);

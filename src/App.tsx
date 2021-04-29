@@ -28,7 +28,7 @@ const App: React.FC = () => {
 	//immediately invoked function
 	const total = (() =>
 		cart.reduce((accumulator, currrentValue): number => {
-			console.log(accumulator, currrentValue);
+			//console.log(accumulator, currrentValue);
 			return accumulator + currrentValue.quantity;
 		}, 0))();
 
@@ -36,7 +36,7 @@ const App: React.FC = () => {
 		fetch('https://fakestoreapi.com/products')
 			.then((res) => res.json())
 			.then((res) => {
-				setProducts(res);
+				setProducts([...res, ...res]);
 				setIsLoaded(true);
 			})
 			.catch((error) => {
@@ -48,36 +48,19 @@ const App: React.FC = () => {
 	const handleAddItem = ({ id, quantity }: CartProduct) => {
 		const currentCart = cart.slice();
 		const index = currentCart.findIndex((product) => product.id === id);
-		const newCart = () => {
-			if (index > -1) {
-				const currentQuantity = currentCart[index].quantity;
-				console.log(currentQuantity);
-				console.log(quantity);
-				const newQuantity = currentQuantity + quantity;
-				console.log(newQuantity);
-				currentCart[index].quantity = newQuantity;
-				console.log(currentCart);
-				return currentCart;
-			}
-			const addedCartProduct = {
-				// id: id,
-				id, // galima sutrumpinti, kai key ir value sutampa
-				// quantity: quantity ? quantity : 1
-				//quantity: quantity ?? 1
-				quantity: quantity
-			};
-			console.log(quantity);
-			return currentCart.concat(addedCartProduct);
+		if (index > -1) {
+			const currentQuantity = currentCart[index].quantity;
+			const newQuantity = currentQuantity + quantity;
+			currentCart[index].quantity = newQuantity;
+			setCart(currentCart);
+			return;
+		}
+		const addedCartProduct = {
+			// galima sutrumpinti, kai key ir value sutampa. (quantity ?? 1)
+			id,
+			quantity
 		};
-		//const currentCartProduct = {
-		//	// id: id,
-		//	id, // galima sutrumpinti, kai key ir value sutampa
-		//	// quantity: quantity ? quantity : 1
-		//	quantity: quantity ?? 1
-		//};
-		////const newCart = currentCart.concat(currentCartProduct);
-
-		setCart(newCart);
+		setCart(currentCart.concat(addedCartProduct));
 	};
 
 	if (error) {
@@ -94,7 +77,11 @@ const App: React.FC = () => {
 							<Home products={products} onClick={handleAddItem} />
 						</Route>
 						<Route path="/cart">
-							<CartPage cart={cart} products={products} />
+							<CartPage
+								cart={cart}
+								products={products}
+								total={total}
+							/>
 						</Route>
 						<Route
 							path="/:product"
