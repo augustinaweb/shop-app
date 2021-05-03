@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Product, CartProduct } from '../App';
 import Pagination from '../Components/Pagination';
@@ -9,14 +9,15 @@ interface IProps {
 }
 
 export const Home: React.FC<IProps> = ({ products, onClick }: IProps) => {
-	const [currentPage, setCurrentPage] = useState(1);
 	const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
-	const onPageChange = (selectedPage: number, pageLimit: number) => {
-		const offset = (selectedPage - 1) * pageLimit;
-		const newCurrentProducts = products.slice(offset, offset + pageLimit);
-		setCurrentProducts(newCurrentProducts);
-		setCurrentPage(selectedPage);
+	const handlePageChange = (currentPage: number, pageLimit: number) => {
+		setCurrentProducts(
+			products.slice(
+				(currentPage - 1) * pageLimit,
+				currentPage * pageLimit
+			)
+		);
 	};
 
 	return (
@@ -47,16 +48,21 @@ export const Home: React.FC<IProps> = ({ products, onClick }: IProps) => {
 					);
 				})}
 			</div>
+
 			<Pagination
 				totalRecords={products.length}
 				pageLimit={3}
 				pageNeighbours={1}
-				onPageChange={onPageChange}
-				currentPage={currentPage}
+				className="pagination"
+				handlePageChange={handlePageChange}
+			/>
+			{/*<Pagination
+				pageLimit={3}
+				pageNeighbours={1}
 				className="pagination"
 				setCurrentProducts={setCurrentProducts}
-				items={products}
-			/>
+				products={products}
+			/>*/}
 		</>
 	);
 };

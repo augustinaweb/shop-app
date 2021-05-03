@@ -63,6 +63,11 @@ const App: React.FC = () => {
 		setCart(currentCart.concat(addedCartProduct));
 	};
 
+	const handleRemoveItem = (id: number) => {
+		const currentCart = cart.slice();
+		setCart(currentCart.filter((el) => el.id !== id));
+	};
+
 	if (error) {
 		return <div>Error: {error}</div>;
 	} else if (!isLoaded) {
@@ -81,6 +86,7 @@ const App: React.FC = () => {
 								cart={cart}
 								products={products}
 								total={total}
+								handleRemoveItem={handleRemoveItem}
 							/>
 						</Route>
 						<Route

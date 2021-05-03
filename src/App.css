@@ -230,3 +230,16 @@ td {
 	border-radius: 3px;
 	border: solid 1px black;
 }
+
+.delete {
+	width: 20px;
+}
+
+.delete:active {
+	transform: scale(1.1);
+	cursor: pointer;
+}
+
+.delete:hover {
+	cursor: pointer;
+}

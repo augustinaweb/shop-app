@@ -1,15 +1,28 @@
 import React, { FC } from 'react';
 import { CartProduct, Product } from '../App';
+import trashIcon from '../images/delete.png';
 
 interface IProps {
 	cart: CartProduct[];
 	products: Product[];
 	total: number;
+	handleRemoveItem: (id: number) => void;
 }
 
-const CartPage: FC<IProps> = ({ cart, products, total }: IProps) => {
+const CartPage: FC<IProps> = ({
+	cart,
+	products,
+	total,
+	handleRemoveItem
+}: IProps) => {
 	console.log(cart);
-	//const totalPrice = reduce.cart
+	const totalPrice = cart.reduce((accumulator, currentValue): any => {
+		const product = products.find((el) => el.id === currentValue.id);
+		if (product) {
+			return accumulator + product.price * currentValue.quantity;
+		}
+	}, 0);
+
 	return (
 		<>
 			<h2>Cart!</h2>
@@ -20,6 +33,7 @@ const CartPage: FC<IProps> = ({ cart, products, total }: IProps) => {
 					<th></th>
 					<th>Price</th>
 					<th>Quantity</th>
+					<th>Remove</th>
 				</tr>
 				{cart.map((product, i: number) => {
 					const index = products.findIndex(
@@ -37,6 +51,13 @@ const CartPage: FC<IProps> = ({ cart, products, total }: IProps) => {
 							</td>
 							<td>{products[index].price} €</td>
 							<td>{product.quantity}</td>
+							<td>
+								<img
+									className="delete"
+									src={trashIcon}
+									onClick={() => handleRemoveItem(product.id)}
+								></img>
+							</td>
 						</tr>
 					);
 				})}
@@ -44,8 +65,9 @@ const CartPage: FC<IProps> = ({ cart, products, total }: IProps) => {
 					<td></td>
 					<td></td>
 					<td></td>
-					<td>totalPrice €</td>
+					<td>{totalPrice} €</td>
 					<td>{total}</td>
+					<td></td>
 				</tr>
 			</table>
 		</>
